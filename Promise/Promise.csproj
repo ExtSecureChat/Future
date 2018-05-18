@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>ExtSecureChat.Future</AssemblyName>
+    <RootNamespace>ExtSecureChat.Future</RootNamespace>
+    <ApplicationIcon />
+    <Authors>Leon Marzahn</Authors>
+    <Product>ExtSecureChat.Future</Product>
+    <Description>A library for the ExtSecureChat that consists of helpers like:
+- Promises</Description>
+    <NeutralLanguage>en</NeutralLanguage>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>Leon Marzahn @ 2018</Copyright>
+  </PropertyGroup>
+
+</Project>
