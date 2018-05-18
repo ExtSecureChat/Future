@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtSecureChat.Future", "src\ExtSecureChat.PromiseLibrary\ExtSecureChat.Future.csproj", "{B69C7411-9C75-4D67-BBCC-BC272A64CB4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtSecureChat.Future.Tests", "test\ExtSecureChat.Promise.Tests\ExtSecureChat.Future.Tests.csproj", "{DC1BABDD-4D98-4859-8936-0852C5F9B424}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B69C7411-9C75-4D67-BBCC-BC272A64CB4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B69C7411-9C75-4D67-BBCC-BC272A64CB4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B69C7411-9C75-4D67-BBCC-BC272A64CB4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B69C7411-9C75-4D67-BBCC-BC272A64CB4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC1BABDD-4D98-4859-8936-0852C5F9B424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC1BABDD-4D98-4859-8936-0852C5F9B424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC1BABDD-4D98-4859-8936-0852C5F9B424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC1BABDD-4D98-4859-8936-0852C5F9B424}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A53C1923-F431-4E97-B169-314CA66200AA}
+	EndGlobalSection
+EndGlobal
