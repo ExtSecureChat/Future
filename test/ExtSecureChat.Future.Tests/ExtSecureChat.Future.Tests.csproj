@@ -55,9 +55,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Promise\Promise.csproj">
-      <Project>{c5c928f3-94e1-4e72-a6b3-79645ce2ac56}</Project>
-      <Name>Promise</Name>
+    <ProjectReference Include="..\..\src\ExtSecureChat.Future\ExtSecureChat.Future.csproj">
+      <Project>{16350427-176d-4192-b229-b5f8ebbbfa0b}</Project>
+      <Name>ExtSecureChat.Future</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
