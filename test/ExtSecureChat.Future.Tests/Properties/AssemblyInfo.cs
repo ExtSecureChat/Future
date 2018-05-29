@@ -6,14 +6,14 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ExtSecureChat")]
+[assembly: AssemblyProduct("ExtSecureChat.Future.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 
-[assembly: Guid("dc1babdd-4d98-4859-8936-0852c5f9b424")]
+[assembly: Guid("5f35bbc2-823f-4249-8263-98afc8916bb6")]
 
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]

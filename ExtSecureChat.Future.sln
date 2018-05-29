@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtSecureChat.Future", "src\ExtSecureChat.Future\ExtSecureChat.Future.csproj", "{16350427-176D-4192-B229-B5F8EBBBFA0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtSecureChat.Future.Tests", "test\ExtSecureChat.Future.Tests\ExtSecureChat.Future.Tests.csproj", "{DC1BABDD-4D98-4859-8936-0852C5F9B424}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtSecureChat.Future.Tests", "test\ExtSecureChat.Future.Tests\ExtSecureChat.Future.Tests.csproj", "{5F35BBC2-823F-4249-8263-98AFC8916BB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{16350427-176D-4192-B229-B5F8EBBBFA0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16350427-176D-4192-B229-B5F8EBBBFA0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16350427-176D-4192-B229-B5F8EBBBFA0B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC1BABDD-4D98-4859-8936-0852C5F9B424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC1BABDD-4D98-4859-8936-0852C5F9B424}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC1BABDD-4D98-4859-8936-0852C5F9B424}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC1BABDD-4D98-4859-8936-0852C5F9B424}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F35BBC2-823F-4249-8263-98AFC8916BB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F35BBC2-823F-4249-8263-98AFC8916BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F35BBC2-823F-4249-8263-98AFC8916BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F35BBC2-823F-4249-8263-98AFC8916BB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

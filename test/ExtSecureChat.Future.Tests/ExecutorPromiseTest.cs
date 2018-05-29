@@ -4,18 +4,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ExtSecureChat.Future.Tests
 {
     [TestClass]
-    public class PromiseTest
+    public class ExecutorPromiseTest
     {
         public string TestString = "Test";
 
         [TestMethod]
-        public void TestReturnString()
+        public void TestExecutorPromiseReturnString()
         {
             string ret = String.Empty;
 
-            var promise = new Promise(() =>
+            var promise = new Promise((resolve, reject) =>
             {
-                return TestString;
+                resolve(TestString);
             }).Then(res =>
             {
                 ret = res;
@@ -26,13 +26,13 @@ namespace ExtSecureChat.Future.Tests
         }
 
         [TestMethod]
-        public void TestCatchError()
+        public void TestExecutorPromiseCatch()
         {
             string errorMessage = String.Empty;
 
-            var promise = new Promise(() =>
+            var promise = new Promise((resolve, reject) =>
             {
-                throw new Exception(TestString);
+                reject(TestString);
             }).Catch(err =>
             {
                 errorMessage = err.Message;

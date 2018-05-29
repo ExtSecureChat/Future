@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExtSecureChat.Future.Exceptions;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -6,36 +7,45 @@ namespace ExtSecureChat.Future
 {
     public class Promise<T>
     {
+        private const int TTL = 50000;
+        private const int WAIT_TIME = 250;
+
+        private int currentTTL = 0;
+
         public bool Completed { get; private set; }
         public bool Failed { get; private set; }
         public bool Cancelled { get; private set; }
 
         public Exception Exception { get; private set; }
 
-        private Task<T> task;
-        private Task continueTask;
-        private Task catchTask;
-        private Task finallyTask;
+        private Task<T> executorTask;
+        private Task resolveTask;
+        private Task rejectTask;
 
-        private Func<T> executeFunc;
-        private Action<T> thenFunc;
-        private Action<Exception> catchFunc;
-        private Action finallyFunc;
+        private Func<T> executorFunc;
+        private Action<T> resolveFunc;
+        private Action<Exception> rejectFunc;
 
         private CancellationTokenSource cancellationTokenSource;
         private CancellationToken cancellationToken;
 
-        public Promise(Func<T> execute, Action<T> then = null, Action<Exception> except = null, Action final = null)
+        /// <summary>
+        /// Basic Constructor
+        /// </summary>
+        /// <param name="executor">Function to execute</param>
+        public Promise(Func<T> executor)
         {
+            InitializePromise(executor);
+        }
+
+        private void InitializePromise(Func<T> executor)
+        {
+            executorFunc = executor;
+
             cancellationTokenSource = new CancellationTokenSource();
             cancellationToken = cancellationTokenSource.Token;
 
-            executeFunc = execute;
-            thenFunc = then;
-            catchFunc = except;
-            finallyFunc = final;
-
-            task = new Task<T>(() =>
+            executorTask = new Task<T>(() =>
             {
                 try
                 {
@@ -44,39 +54,110 @@ namespace ExtSecureChat.Future
                 catch (Exception ex)
                 {
                     Exception = ex;
-                    catchTask.Start();
+                    rejectTask.Start();
                     return default(T);
                 }
-                
             }, cancellationTokenSource.Token);
 
-            continueTask = task.ContinueWith(t =>
+            var waitTask = new Task(() =>
+            {
+                while ((resolveFunc == null || resolveTask == null) && (rejectFunc == null || rejectTask == null))
+                {
+                    if (currentTTL > TTL)
+                    {
+                        throw new PromiseTimoutException(String.Format("Promise exceeded the TTL of: {0}", TTL));
+                    }
+
+                    Thread.Sleep(WAIT_TIME);
+                    currentTTL++;
+                }
+
+                executorTask.Start();
+            });
+
+            waitTask.Start();
+        }
+
+        #region --- Executor Promise Methods ---
+
+        /// <summary>
+        /// Executor Constructor (Resolve and reject on your own)
+        /// </summary>
+        /// <param name="executor">Function to execute with resolve and reject as arguments</param>
+        public Promise(Action<Action<dynamic>, Action<string>> executor)
+        {
+            dynamic resolved = null;
+            Exception exception = null;
+
+            InitializePromise(() =>
+            {
+                var execTask = Task.Factory.StartNew(() => {
+                    executor(
+                        (resolve) =>
+                        {
+                            resolved = resolve;
+                        },
+                        (reject) =>
+                        {
+                            exception = new PromiseRejectException(reject);
+                        }
+                    );
+                });
+
+                while (resolved == null && exception == null)
+                {
+                    if (currentTTL > TTL)
+                    {
+                        throw new PromiseTimoutException(String.Format("Promise exceeded the TTL of: {0}", TTL));
+                    }
+
+                    Thread.Sleep(WAIT_TIME);
+                    currentTTL++;
+                }
+
+                if (exception != null)
+                {
+                    throw exception;
+                }
+
+                return resolved;
+            });
+        }
+
+        #endregion
+
+        public Promise<T> Then(Action<T> resolve)
+        {
+            resolveFunc = resolve;
+
+            resolveTask = executorTask.ContinueWith(t =>
             {
                 thenExecute(t.Result);
             }, TaskContinuationOptions.NotOnFaulted | TaskContinuationOptions.NotOnCanceled);
 
-            catchTask = new Task(() =>
+            return this;
+        }
+
+        public Promise<T> Catch(Action<Exception> reject)
+        {
+            rejectFunc = reject;
+
+            rejectTask = new Task(() =>
             {
-                catchExecute(Exception);
+                catchExecute(Exception.InnerException);
             });
 
-            finallyTask = task.ContinueWith(t =>
-            {
-                finallyExecute();
-            });
-
-            task.Start();
+            return this;
         }
 
         public void Wait()
         {
-            task?.Wait();
-            continueTask?.Wait();
-            if (Failed)
+            executorTask?.Wait();
+            resolveTask?.Wait();
+            if (Failed || (rejectTask != null && !rejectTask.IsCompleted))
             {
-                catchTask?.Wait();
+                rejectTask?.Wait();
             }
-            finallyTask?.Wait();
         }
 
         public void Cancel()
@@ -89,9 +170,9 @@ namespace ExtSecureChat.Future
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var t =  Task.Factory.StartNew(() =>
+            var t = Task.Factory.StartNew(() =>
             {
-                return executeFunc.Invoke();
+                return executorFunc.Invoke();
             });
 
             while (!t.IsCompleted)
@@ -102,7 +183,7 @@ namespace ExtSecureChat.Future
                 }
             }
 
-            if (thenFunc == null || finallyFunc == null)
+            if (resolveFunc == null)
             {
                 Completed = true;
             }
@@ -112,21 +193,26 @@ namespace ExtSecureChat.Future
 
         private void thenExecute(T response)
         {
-            thenFunc?.Invoke(response);
+            resolveFunc?.Invoke(response);
             Completed = true;
         }
 
         private void catchExecute(Exception ex)
         {
-            catchFunc?.Invoke(ex);
+            rejectFunc?.Invoke(ex);
             Completed = true;
             Failed = true;
         }
+    }
 
-        private void finallyExecute()
+    public class Promise : Promise<dynamic>
+    {
+        public Promise(Func<dynamic> executor) : base(executor)
         {
-            finallyFunc?.Invoke();
-            Completed = true;
+        }
+
+        public Promise(Action<Action<dynamic>, Action<string>> executor) : base(executor)
+        {
         }
     }
 }
