@@ -12,9 +12,9 @@ namespace ExtSecureChat.Future
 
         private int currentTTL = 0;
 
-        public bool Completed { get; private set; }
-        public bool Failed { get; private set; }
-        public bool Cancelled { get; private set; }
+        private bool Completed;
+        private bool Failed;
+        private bool Cancelled;
 
         public Exception Exception { get; private set; }
 
@@ -32,6 +32,13 @@ namespace ExtSecureChat.Future
         /// <summary>
         /// Basic Constructor
         /// </summary>
+        /// <example>
+        /// var promise = new Promise<string>(() =>
+        /// {
+        ///     return "You are cool";
+        /// });
+        /// </example>
+        /// <see cref="https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Promise"/>
         /// <param name="executor">Function to execute</param>
         public Promise(Func<T> executor)
         {
@@ -81,8 +88,22 @@ namespace ExtSecureChat.Future
         #region --- Executor Promise Methods ---
 
         /// <summary>
-        /// Executor Constructor (Resolve and reject on your own)
+        /// Generic Executor Promise Constructor (Resolve and reject on your own)
         /// </summary>
+        /// <example>
+        /// var promise = new Promise<string>((resolve, reject) =>
+        /// {
+        ///     if (iAmCool())
+        ///     {
+        ///         resolve("You are cool!");
+        ///     }
+        ///     else
+        ///     {
+        ///         reject("You are not cool :(");
+        ///     }
+        /// });
+        /// </example>
+        /// <see cref="https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Promise"/>
         /// <param name="executor">Function to execute with resolve and reject as arguments</param>
         public Promise(Action<Action<dynamic>, Action<string>> executor)
         {
@@ -207,10 +228,24 @@ namespace ExtSecureChat.Future
 
     public class Promise : Promise<dynamic>
     {
+        /// <summary>
+        /// Dynamic Promise Constructor
+        /// </summary>
+        /// <example>
+        /// new Promise(...) -- Doesn't have a type specifier
+        /// </example>
+        /// <inheritDoc/>
         public Promise(Func<dynamic> executor) : base(executor)
         {
         }
 
+        /// <summary>
+        /// Dynamic Executor Promise Constructor
+        /// </summary>
+        /// <example>
+        /// new Promise(...) -- Doesn't have a type specifier
+        /// </example>
+        /// <inheritDoc/>
         public Promise(Action<Action<dynamic>, Action<string>> executor) : base(executor)
         {
         }
