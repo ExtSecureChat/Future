@@ -1,2 +1,8 @@
 language: csharp
-solution: ExtSecureChat.Future.sln
+mono: none
+dotnet: 2.0.1
+dist: trusty
+script:
+    - cd src/ExtSecureChat.Future
+    - dotnet restore
+    - dotnet build
