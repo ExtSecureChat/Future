@@ -6,3 +6,6 @@ script:
     - cd src/ExtSecureChat.Future
     - dotnet restore
     - dotnet build
+    - cd ../../test/ExtSecureChat.Future.Tests
+    - dotnet restore
+    - dotnet test
