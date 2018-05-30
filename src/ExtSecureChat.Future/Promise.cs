@@ -7,8 +7,8 @@ namespace ExtSecureChat.Future
 {
     public class Promise<T>
     {
-        private const int TTL = 50000;
-        private const int WAIT_TIME = 250;
+        private const int TTL = 100;
+        private const int WAIT_TIME = 60;
 
         private int currentTTL = 0;
 
