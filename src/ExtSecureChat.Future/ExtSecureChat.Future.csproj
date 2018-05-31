@@ -8,11 +8,14 @@
     <Authors>Leon Marzahn</Authors>
     <Product>ExtSecureChat.Future</Product>
     <Description>A library for the ExtSecureChat that consists of helpers like:
-- Promises</Description>
+- Promises
+- Observables</Description>
     <NeutralLanguage>en</NeutralLanguage>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>Leon Marzahn @ 2018</Copyright>
+    <RepositoryUrl>https://github.com/ExtSecureChat/Future</RepositoryUrl>
+    <RepositoryType>Open-Source</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
