@@ -1,5 +1,4 @@
 ﻿using System;
-using ExtSecureChat.Future.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ExtSecureChat.Future.Tests
@@ -44,18 +43,19 @@ namespace ExtSecureChat.Future.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(PromiseTimoutException), "Promise exceeded the TTL of:")]
-        public void TestExceedTTL()
+        public void TestCancel()
         {
             var promise = new Promise(() =>
             {
-                while(true)
+                while (true)
                 {
-                    // Endless loop
+                    // Infinite loop to cancel
                 }
             });
 
+            promise.Cancel();
             promise.Wait();
+            Assert.AreEqual(true, promise.Cancelled);
         }
     }
 }

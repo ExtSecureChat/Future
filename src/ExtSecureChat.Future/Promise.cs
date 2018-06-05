@@ -7,14 +7,9 @@ namespace ExtSecureChat.Future
 {
     public class Promise<T>
     {
-        private const int TTL = 100;
-        private const int WAIT_TIME = 60;
-
-        private int currentTTL = 0;
-
-        private bool Completed;
-        private bool Failed;
-        private bool Cancelled;
+        public bool Completed { get; private set; }
+        public bool Failed { get; private set; }
+        public bool Cancelled { get; private set; }
 
         public Exception Exception { get; private set; }
 
@@ -61,28 +56,12 @@ namespace ExtSecureChat.Future
                 catch (Exception ex)
                 {
                     Exception = ex;
-                    rejectTask.Start();
+                    rejectTask?.Start();
                     return default(T);
                 }
             }, cancellationTokenSource.Token);
 
-            var waitTask = new Task(() =>
-            {
-                while ((resolveFunc == null || resolveTask == null) && (rejectFunc == null || rejectTask == null))
-                {
-                    if (currentTTL > TTL)
-                    {
-                        throw new PromiseTimoutException(String.Format("Promise exceeded the TTL of: {0}", TTL));
-                    }
-
-                    Thread.Sleep(WAIT_TIME);
-                    currentTTL++;
-                }
-
-                executorTask.Start();
-            });
-
-            waitTask.Start();
+            executorTask.Start();
         }
 
         #region --- Executor Promise Methods ---
@@ -125,17 +104,6 @@ namespace ExtSecureChat.Future
                     );
                 });
 
-                while (resolved == null && exception == null)
-                {
-                    if (currentTTL > TTL)
-                    {
-                        throw new PromiseTimoutException(String.Format("Promise exceeded the TTL of: {0}", TTL));
-                    }
-
-                    Thread.Sleep(WAIT_TIME);
-                    currentTTL++;
-                }
-
                 if (exception != null)
                 {
                     throw exception;
@@ -175,15 +143,13 @@ namespace ExtSecureChat.Future
         {
             executorTask?.Wait();
             resolveTask?.Wait();
-            if (Failed || (rejectTask != null && !rejectTask.IsCompleted))
-            {
-                rejectTask?.Wait();
-            }
+            rejectTask?.Wait();
         }
 
         public void Cancel()
         {
             cancellationTokenSource.Cancel();
+            Completed = true;
             Cancelled = true;
         }
 
