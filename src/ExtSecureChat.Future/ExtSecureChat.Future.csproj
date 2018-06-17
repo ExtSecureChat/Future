@@ -16,6 +16,7 @@
     <Copyright>Leon Marzahn @ 2018</Copyright>
     <RepositoryUrl>https://github.com/ExtSecureChat/Future</RepositoryUrl>
     <RepositoryType>Open-Source</RepositoryType>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
