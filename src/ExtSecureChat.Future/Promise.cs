@@ -309,6 +309,7 @@ namespace ExtSecureChat.Future
         /// Waits for all provided promises to finish
         /// </summary>
         /// <param name="promises">Promises to wait for</param>
+        /// <returns>A new promise</returns>
         public static Promise<dynamic> All(params Promise<dynamic>[] promises)
         {
             return new Promise((resolve, reject) =>
@@ -322,6 +323,11 @@ namespace ExtSecureChat.Future
             });
         }
 
+        /// <summary>
+        /// Waits for one of the promises to finish and returns it
+        /// </summary>
+        /// <param name="promises"></param>
+        /// <returns>First promise that finished</returns>
         public static Promise<dynamic> Race(params Promise<dynamic>[] promises)
         {
             List<Task> tasks = new List<Task>();
